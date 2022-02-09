@@ -107,6 +107,52 @@ class Bug(models.Model):
 
     #last_name = models.CharField(max_length=100)
     description = models.TextField(max_length=1000, help_text='Enter a brief description of the bug')
+
+    first_name = models.CharField(max_length=100, null=True, blank=True)
+    last_name = models.CharField(max_length=100, null=True, blank=True)
+    affiliation = models.CharField(max_length=200, null=True, blank=True, help_text='Institution')
+
+    LOCATION = (
+        ('us', 'United States'),
+        ('c', 'Canada'),
+        ('m', 'Mexico'),
+        ('a', 'Africa'),
+        ('as', 'Asia'),
+        ('e', 'Europe'),
+        ('o', 'Oceania'),
+        ('sa', 'South America'),
+    )
+
+    location = models.CharField(
+        max_length=2,
+        choices=LOCATION,
+        null=True,
+        blank=True,
+        default='us',
+    )
+
+    email = models.EmailField(max_length=254)
+
+    QUERY_TYPE = (
+        ('b', 'bug'),
+        ('q', 'question'),
+        ('s', 'suggestion'),
+        ('f', 'feedback'),
+        ('l', 'like'),
+        ('d', 'dislike'),
+        ('o', 'other'),
+    )
+
+    query_type = models.CharField(
+        max_length=1,
+        choices=QUERY_TYPE,
+        null=True,
+        blank=True,
+        default='b',
+    )
+
+    screenshot_or_attachment = models.FileField(upload_to ='uploads/', help_text = "Upload screenshot or a problematic data file", null=True, blank=True)
+
     status = models.CharField(max_length=20, default='Not fixed', help_text='Select a status for this bug')
     date_fixed = models.DateField('Fixed', null=True, blank=True)
 

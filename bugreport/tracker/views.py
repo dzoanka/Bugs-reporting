@@ -59,12 +59,12 @@ class BugDetailView(generic.DetailView):
 
 class BugCreate(CreateView):
     model = Bug
-    fields = ['project', 'description']
+    fields = ['project', 'description', 'screenshot_or_attachment']
 
 class ProjectBugCreate(CreateView):
     template_name = 'tracker/bug_form_project.html'
     model = Bug
-    fields = ['description']
+    fields = ['description', 'screenshot_or_attachment']
 
     def get_context_data(self, **kwargs):
         context = super(ProjectBugCreate, self).get_context_data(**kwargs)
@@ -91,7 +91,7 @@ def track_ticket(request):
 class BugUpdate(UpdateView):
     #template_name = 'tracker/bug_form_project.html'
     model = Bug
-    fields = ['description'] #"__all__"
+    fields = ['description', 'screenshot_or_attachment'] #"__all__"
 
     def get_object(self, queryset=None):
         obj = Bug.objects.get(ticket_no=self.kwargs['uuid']) # instead of self.request.GET or self.request.POST
