@@ -1,0 +1,56 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.content {
+  padding: 1pc
+}
+
+textarea {
+  width:70%;
+  margin:10px 0 0 0;
+}
+table textarea, table select {
+  border-radius:10px;
+  border: 1px solid #eee;
+  transition: .3s border-color;
+}
+
+table select {
+  padding: 10px;
+}
+
+table textarea:hover, table select:hover {
+  border: 1px solid #aaa;
+}
+
+form th {
+  display: none;
+}
+
+form th, form td {
+  border: none;
+  padding: 0px;
+}
+
+.sidebar-nav {
+    margin-top: 20px;
+    padding: 0;
+    list-style: none;
+}
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.list_table td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.list_table tr:nth-child(even) {
+  background-color: #dddddd;
+}

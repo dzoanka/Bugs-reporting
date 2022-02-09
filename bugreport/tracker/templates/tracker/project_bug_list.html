@@ -1,0 +1,28 @@
+{% extends "base_generic_project.html" %}
+
+{% block content %}
+<div class="content">
+  <h2>List of problems reported in {{project_full}}</h2>
+  {% if bug_list %}
+  <table class="list_table">
+    <tr>
+      <th>DATE OF BUG REPORT</th>
+      <th>BUG EXPLANATION</th>
+      <th>STATUS</th>
+      <th>FIXED AT</th>
+    </tr>
+    {% for bug in bug_list %}
+      <tr>
+        <td>{{bug.created_at }}</td>
+        <td>{{bug.description}}</td>
+        <td>{{bug.status}}</td>
+        <td>{{bug.date_fixed}}</td>
+      </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+    <p>There are no bugs.</p>
+  {% endif %}
+</div>
+
+{% endblock %}
