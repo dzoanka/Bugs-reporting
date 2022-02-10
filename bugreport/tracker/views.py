@@ -64,7 +64,7 @@ class BugCreate(CreateView):
 class ProjectBugCreate(CreateView):
     template_name = 'tracker/bug_form_project.html'
     model = Bug
-    fields = ['description', 'screenshot_or_attachment']
+    fields = ['description', 'screenshot_or_attachment', 'first_name', 'last_name', 'affiliation', 'location', 'email', 'query_type']
 
     def get_context_data(self, **kwargs):
         context = super(ProjectBugCreate, self).get_context_data(**kwargs)

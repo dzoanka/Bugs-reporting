@@ -105,7 +105,6 @@ class Bug(models.Model):
         help_text='Project where bug is occuring',
     )
 
-    #last_name = models.CharField(max_length=100)
     description = models.TextField(max_length=1000, help_text='Enter a brief description of the bug')
 
     first_name = models.CharField(max_length=100, null=True, blank=True)
@@ -131,7 +130,7 @@ class Bug(models.Model):
         default='us',
     )
 
-    email = models.EmailField(max_length=254)
+    email = models.EmailField(max_length=254, null=True, blank=True)
 
     QUERY_TYPE = (
         ('b', 'bug'),

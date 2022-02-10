@@ -21,7 +21,7 @@
         <ul class="sidebar-nav">
           <li><a href="{% url 'bugs-project' project=project %}">All bugs</a></li>
           <li><a href="{% url 'bug-create-project' project=project %}">Report new bug</a></li>
-          <li><a href="{% url 'bug-track-ticket' %}">Track your ticket</a></li>
+          <li><a href="{% url 'bug-track-ticket-project' project=project %}">Track your ticket</a></li>
         </ul>
         {% endblock %}
       </div>

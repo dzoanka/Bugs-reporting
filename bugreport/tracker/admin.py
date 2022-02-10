@@ -28,7 +28,7 @@ class BookAdmin(admin.ModelAdmin):
 
 @admin.register(Bug)
 class BugAdmin(admin.ModelAdmin):
-    list_display = ('ticket_no', 'project', 'description', 'created_at', 'status', 'date_fixed')
+    list_display = ('ticket_no', 'project', 'description', 'screenshot_or_attachment', 'created_at', 'status', 'date_fixed')
 
 # Register the Admin classes for BookInstance using the decorator
 @admin.register(BookInstance)

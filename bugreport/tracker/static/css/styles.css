@@ -9,9 +9,8 @@
 
 textarea {
   width:70%;
-  margin:10px 0 0 0;
 }
-table textarea, table select {
+table textarea, table select{
   border-radius:10px;
   border: 1px solid #eee;
   transition: .3s border-color;
@@ -21,12 +20,12 @@ table select {
   padding: 10px;
 }
 
-table textarea:hover, table select:hover {
-  border: 1px solid #aaa;
+.query_type select {
+  padding: 5px;
 }
 
-form th {
-  display: none;
+table textarea:hover, table select:hover {
+  border: 1px solid #aaa;
 }
 
 form th, form td {
