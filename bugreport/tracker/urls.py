@@ -10,10 +10,9 @@ urlpatterns = [
 
 urlpatterns += [
     path('bug/create/', views.BugCreate.as_view(), name='bug-create'),
-    path('bug/<str:uuid>/update/', views.BugUpdate.as_view(), name='bug-update'),
-    path('bug/<int:pk>/delete/', views.BugDelete.as_view(), name='bug-delete'),
-    path('bug/track/', views.track_ticket, name='bug-track-ticket'),
     path('bug/create/<str:project>/', views.ProjectBugCreate.as_view(), name='bug-create-project'),
+    path('bug/<str:uuid>/update/', views.BugUpdate.as_view(), name='bug-update'),
+    path('bug/track/', views.track_ticket, name='bug-track-ticket'),
     path('bug/track/<str:project>/', views.track_ticket, name='bug-track-ticket-project'),
 ]
 

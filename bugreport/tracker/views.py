@@ -59,7 +59,7 @@ class BugDetailView(generic.DetailView):
 
 class BugCreate(CreateView):
     model = Bug
-    fields = ['project', 'description', 'screenshot_or_attachment']
+    fields = ['project', 'description', 'screenshot_or_attachment', 'first_name', 'last_name', 'affiliation', 'location', 'email', 'query_type']
 
 class ProjectBugCreate(CreateView):
     template_name = 'tracker/bug_form_project.html'
