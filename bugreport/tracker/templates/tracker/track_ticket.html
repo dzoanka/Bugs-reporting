@@ -1,4 +1,4 @@
-{% extends "base_generic.html" %}
+{% extends project|yesno:'base_generic_project.html,base_generic.html' %}
 
 {% block content %}
   <h3>Enter the ticket number of the issue you want to track</h3>
@@ -7,6 +7,7 @@
     <table>
     {{ form.as_p }}
     </table>
+    <p>{{ form.error }}</p>
     <br>
     <input type="submit" value="Submit">
   </form>

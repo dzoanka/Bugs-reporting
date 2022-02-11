@@ -1,13 +1,13 @@
-{% extends "base_generic.html" %}
+{% extends project|yesno:'base_generic_project.html,base_generic.html' %}
 
 {% block content %}
 <div class="content">
-  <h2>List of problems reported in all projects</h2>
+  <h2>List of problems reported {% if project_full %}in {{project_full}}{%else%}in all projects{% endif%}</h2>
   {% if bug_list %}
   <table class="list_table">
     <tr>
       <th>DATE OF BUG REPORT</th>
-      <th>PROJECT</th>
+      {% if project_full %}{%else%}<th>PROJECT</th>{% endif%}
       <th>BUG EXPLANATION</th>
       <th>STATUS</th>
       <th>FIXED AT</th>
@@ -15,7 +15,7 @@
     {% for bug in bug_list %}
       <tr>
         <td>{{bug.created_at }}</td>
-        <td>{{bug.get_project_display }}</td>
+        {% if project_full %}{%else%}<td>{{bug.get_project_display }}</td>{% endif%}
         <td>{{bug.description}}</td>
         <td>{{bug.status}}</td>
         <td>{{bug.date_fixed}}</td>

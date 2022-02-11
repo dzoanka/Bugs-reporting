@@ -1,10 +1,9 @@
 from django import forms
+from .models import Bug
 
-# class ProjectBugForm(forms.ModelForm):
-#
-#     class Meta:
-#         model = Bug
-#         fields = ['description']
-    #description = forms.CharField(widget=forms.Textarea(attrs={"cols":40, "rows":10, "maxlength":1000}))
 class TrackTicketForm(forms.Form):
+
+    # class Meta:
+    #     model = Bug
+    #     fields = ('ticket_number', )
     ticket_number = forms.UUIDField()
