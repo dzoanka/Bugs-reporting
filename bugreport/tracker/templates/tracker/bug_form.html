@@ -1,9 +1,10 @@
-{% extends "base_generic.html" %}
+{% extends project|yesno:'base_generic_project.html,base_generic.html' %}
 
 {% block content %}
-<h3>Report the problem that you encountered</h3>
+<h3>Report the problem that you encountered {% if project_full %}in {{project_full}}{%else%}{% endif%}</h3>
 <form action="" method="post" enctype="multipart/form-data">
   {% csrf_token %}
+  {% if project_full %}<div style="display:none;">{{form.project}}</div>{%else%}
   <table>
     <tbody>
       <tr>
@@ -14,6 +15,7 @@
       </tr>
     </tbody>
   </table>
+  {% endif%}
   <br>
   <table class="query_type">
     <tbody>

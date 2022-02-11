@@ -17,7 +17,7 @@
         <td>{{bug.created_at }}</td>
         {% if project_full %}{%else%}<td>{{bug.get_project_display }}</td>{% endif%}
         <td>{{bug.description}}</td>
-        <td>{{bug.status}}</td>
+        <td>{{bug.get_status_display}}</td>
         <td>{{bug.date_fixed}}</td>
       </tr>
     {% endfor %}

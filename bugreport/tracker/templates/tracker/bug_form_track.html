@@ -1,9 +1,25 @@
-{% extends "base_generic_project.html" %}
+{% extends project|yesno:'base_generic_project.html,base_generic.html' %}
 
 {% block content %}
-<h3>Report the problem that you encountered in {{project_full}}</h3>
+<h3>The status of your ticket {{bug.ticket_number}} is {{bug.status}}</h3>
+<br>
+{% if bug.date_fixed %} <p>Your query is closed so it is not possible to edit it. Add new query if you need to add something. You can refer to this ticket by its ticket number.</p> {%else%}
+<p>Works on your query are still in progress. You can edit it below: </p>
 <form action="" method="post" enctype="multipart/form-data">
   {% csrf_token %}
+  {% if project_full %}<div style="display:none;">{{form.project}}</div>{%else%}
+  <table>
+    <tbody>
+      <tr>
+        <th><label for="id_project">Project<span style="color:red">*</span></label></th>
+      </tr>
+      <tr>
+        <td>{{form.project}}</td>
+      </tr>
+    </tbody>
+  </table>
+  {% endif%}
+  <br>
   <table class="query_type">
     <tbody>
       <tr>
@@ -64,5 +80,5 @@
   <br>
   <input type="submit" value="Submit">
 </form>
-
+{%endif%}
 {% endblock %}

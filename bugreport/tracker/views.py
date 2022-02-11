@@ -46,52 +46,46 @@ class BugDetailView(generic.DetailView):
         bug = get_object_or_404(Bug, pk=primary_key)
         return render(request, 'tracker/bug_detail.html', context={'bug': bug})
 
+def send_query_email(full_name, ticket_number, email):
+    send_mail(
+        'Query to ' + full_name + ' system',
+        'You added a query to ' + full_name +  ' system. The ticket number is ' + ticket_number + '. You can track or edit your query by providing the ticket number.',
+        'joanna_len@iwonka.med.virginia.edu',
+        [email],
+        fail_silently=False,
+    )
+
 class BugCreate(CreateView):
     model = Bug
     fields = ['project', 'description', 'screenshot_or_attachment', 'first_name', 'last_name', 'affiliation', 'location', 'email', 'query_type']
-
-    def form_valid(self, form):
-        if form.instance.email != None:
-            full_name = [v for (k,v) in PROJECT if k == form.instance.project][0]
-            send_mail(
-                'Query to ' + full_name + ' system',
-                'You added a query to ' + full_name +  ' system. The ticket number is ' + str(form.instance.ticket_number) + '. You can track or edit your query by providing the ticket number.',
-                'joanna_len@iwonka.med.virginia.edu',
-                [form.instance.email],
-                fail_silently=False,
-            )
-        # call the parents class method
-        return super().form_valid(form)
-
-class ProjectBugCreate(CreateView):
-    template_name = 'tracker/bug_form_project.html'
-    model = Bug
-    fields = ['description', 'screenshot_or_attachment', 'first_name', 'last_name', 'affiliation', 'location', 'email', 'query_type']
+    initial={'project': 'o'}
 
     def get_context_data(self, **kwargs):
-        context = super(ProjectBugCreate, self).get_context_data(**kwargs)
-        context["project"] = self.kwargs['project']
-        context["project_full"] = [v for (k,v) in PROJECT if k == self.kwargs['project']][0]
+        context = super(BugCreate, self).get_context_data(**kwargs)
+        if 'project' in self.kwargs:
+            context["project"] = self.kwargs['project']
+            context["project_full"] = [v for (k,v) in PROJECT if k == self.kwargs['project']][0]
         return context
 
     def form_valid(self, form):
-        if form.instance.email != None:
+        if 'project' in self.kwargs:
             full_name = [v for (k,v) in PROJECT if k == self.kwargs['project']][0]
-            send_mail(
-                'Query to ' + full_name + ' system',
-                'You added a query to ' + full_name +  ' system. The ticket number is ' + str(form.instance.ticket_number) + '. You can track or edit your query by providing the ticket number.',
-                'joanna_len@iwonka.med.virginia.edu',
-                [form.instance.email],
-                fail_silently=False,
-            )
-        obj = form.save(commit=False)
-        obj.project = self.kwargs['project']
-        obj.save()
-        try:
-            bug = Bug.objects.get(ticket_number=obj.ticket_number)
-            return redirect('bug-detail', pk=bug.id, project=bug.project)
-        except Bug.DoesNotExist:
-            return redirect('/')
+            if form.instance.email != None:
+                send_query_email(full_name, str(form.instance.ticket_number), form.instance.email)
+            obj = form.save(commit=False)
+            obj.project = self.kwargs['project']
+            obj.save()
+            try:
+                bug = Bug.objects.get(ticket_number=obj.ticket_number)
+                return redirect('bug-detail', pk=bug.id, project=bug.project)
+            except Bug.DoesNotExist:
+                return redirect('/')
+        else:
+            full_name = [v for (k,v) in PROJECT if k == form.instance.project][0]
+            if form.instance.email != None:
+                send_query_email(full_name, str(form.instance.ticket_number), form.instance.email)
+        # call the parents class method
+        return super().form_valid(form)
 
 def track_ticket(request):
     context = {}
@@ -117,7 +111,7 @@ def track_ticket_project(request, project):
         bug_found = Bug.objects.filter(ticket_number = request.POST['ticket_number'])
         if bug_found.exists():
             if bug_found.get().project == project:
-                return redirect('bug-update-project', request.POST['ticket_number'], project)
+                return redirect('bug-update', request.POST['ticket_number'], project)
             else:
                 return redirect('bug-update', request.POST['ticket_number'])
         else:
@@ -138,20 +132,14 @@ class BugUpdate(UpdateView):
         obj = Bug.objects.get(ticket_number=self.kwargs['uuid'])
         return obj
 
-class ProjectBugUpdate(UpdateView):
-    model = Bug
-    fields = ['description', 'screenshot_or_attachment', 'first_name', 'last_name', 'affiliation', 'location', 'email', 'query_type']
-
-    def get_object(self, queryset=None):
-        obj = Bug.objects.get(ticket_number=self.kwargs['uuid']) # instead of self.request.GET or self.request.POST
-        return obj
-
     def get_context_data(self, **kwargs):
-        context = super(ProjectBugUpdate, self).get_context_data(**kwargs)
-        context["project"] = self.kwargs['project']
-        context["project_full"] = [v for (k,v) in PROJECT if k == self.kwargs['project']][0]
+        context = super(BugUpdate, self).get_context_data(**kwargs)
+        context['bug'] = self.get_object()
+        if 'project' in self.kwargs:
+            context["project"] = self.kwargs['project']
+            context["project_full"] = [v for (k,v) in PROJECT if k == self.kwargs['project']][0]
         return context
 
     def get_template_names(self):
-        self.template_name_suffix = '_form_project'
-        return super(ProjectBugUpdate, self).get_template_names()
+        self.template_name_suffix = '_form_track'
+        return super(BugUpdate, self).get_template_names()

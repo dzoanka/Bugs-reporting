@@ -1,16 +1,17 @@
 from django.db import models
 from django.urls import reverse # Used to generate URLs by reversing the URL patterns
 import uuid # Required for unique book instances
+from django.utils import timezone
 
 PROJECT = (
     ('cmm', 'CheckMyMetal'),
-    ('o', 'Other'),
+    ('o', 'General'),
 )
 
 class Bug(models.Model):
     """Model representing a bug."""
     ticket_number = models.UUIDField(default=uuid.uuid4, help_text='Unique ID for this particular bug')
-    created_at = models.DateField(auto_now_add=True)
+    created_at = models.DateField(default=timezone.now)
 
     project = models.CharField(
         max_length=10,
@@ -66,7 +67,13 @@ class Bug(models.Model):
 
     screenshot_or_attachment = models.FileField(upload_to ='uploads/', help_text = "Upload screenshot or a problematic data file", null=True, blank=True)
 
-    status = models.CharField(max_length=20, default='Not fixed', help_text='Select a status for this bug')
+    STATUS_TYPE = (
+        ('nf', 'Not fixed'),
+        ('f', 'Fixed'),
+        ('pf', 'Partially fixed'),
+    )
+
+    status = models.CharField(max_length=2, choices=STATUS_TYPE, default='nf', help_text='Select a status for this bug')
     date_fixed = models.DateField('Fixed', null=True, blank=True)
 
     def get_absolute_url(self):
