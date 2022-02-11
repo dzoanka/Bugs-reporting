@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('bugs/', views.BugListView.as_view(), name='bugs'),
-    path('bugs/<str:project>/', views.displayBugsForProject, name='bugs'),
+    path('bugs/<str:project>/', views.BugListView.as_view(), name='bugs'),
     path('bug/<int:pk>/', views.BugDetailView.as_view(), name='bug-detail'),
     path('bug/<int:pk>/<str:project>/', views.BugDetailView.as_view(), name='bug-detail'),
     path('bug/create/', views.BugCreate.as_view(), name='bug-create'),

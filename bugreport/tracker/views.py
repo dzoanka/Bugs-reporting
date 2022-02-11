@@ -22,16 +22,22 @@ class BugListView(generic.ListView):
     model = Bug
     paginate_by = 15
 
-def displayBugsForProject(request, project):
-    bug_list = Bug.objects.all().filter(project = project)
-
-    context = {
-        'project': project,
-        'bug_list': bug_list,
-        'project_full': [v for (k,v) in PROJECT if k == project][0]
-    }
-
-    return render(request, 'tracker/bug_list.html', context=context)
+    def get_context_data(self, **kwargs):
+        context = super(BugListView, self).get_context_data(**kwargs)
+        if 'project' in self.kwargs:
+            context["project"] = self.kwargs['project']
+            context["project_full"] = [v for (k,v) in PROJECT if k == self.kwargs['project']][0]
+            context["bug_list"] = Bug.objects.all().filter(project = self.kwargs['project'])
+        bg = dict()
+        for bug in context["bug_list"]:
+            if bug.status == 'nf':
+                bg[bug] = "red"
+            elif bug.status == 'pf':
+                bg[bug] = "yellow"
+            else:
+                bg[bug] = "green"
+        context["bg"] = bg
+        return context
 
 class BugDetailView(generic.DetailView):
     model = Bug
