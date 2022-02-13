@@ -3,13 +3,14 @@
 {% block content %}
 <div class="content">
   <h2>List of problems reported {% if project_full %}in {{project_full}}{%else%}in all projects{% endif%}</h2>
-  <p>Filter status: <button type="button" name="button">Fixed</button> <button type="button" name="button">Partial fixed</button> <button type="button" name="button">Not fixed</button></p>
+  <!-- <p>Filter status: <button type="button" name="button">Fixed</button> <button type="button" name="button">Partial fixed</button> <button type="button" name="button">Not fixed</button></p> -->
   {% if bug_list %}
   <table class="list_table">
     <tr>
       <th>DATE OF BUG REPORT</th>
       {% if project_full %}{%else%}<th>PROJECT</th>{% endif%}
       <th>BUG EXPLANATION</th>
+      <th>QUERY TYPE</th>
       <th>STATUS</th>
       <th>FIXED AT</th>
     </tr>
@@ -18,6 +19,7 @@
         <td>{{bug.created_at }}</td>
         {% if project_full %}{%else%}<td>{{bug.get_project_display }}</td>{% endif%}
         <td>{{bug.description}}</td>
+        <td>{{bug.get_query_type_display}}</td>
         <td>{{bug.get_status_display}}</td>
         <td>{{bug.date_fixed}}</td>
       </tr>

@@ -12,5 +12,5 @@ urlpatterns = [
     path('bug/<str:uuid>/update/', views.BugUpdate.as_view(), name='bug-update'),
     path('bug/<str:uuid>/<str:project>/update/', views.BugUpdate.as_view(), name='bug-update'),
     path('bug/track/', views.track_ticket, name='bug-track-ticket'),
-    path('bug/track/<str:project>/', views.track_ticket_project, name='bug-track-ticket'),
+    path('bug/track/<str:project>/', views.track_ticket, name='bug-track-ticket'),
 ]

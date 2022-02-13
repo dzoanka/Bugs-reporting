@@ -31,11 +31,11 @@ class BugListView(generic.ListView):
         bg = dict()
         for bug in context["bug_list"]:
             if bug.status == 'nf':
-                bg[bug] = "red"
+                bg[bug] = "#F62D2D"
             elif bug.status == 'pf':
-                bg[bug] = "yellow"
+                bg[bug] = "#F4F59C"
             else:
-                bg[bug] = "green"
+                bg[bug] = "#72D080"
         context["bg"] = bg
         return context
 
@@ -93,30 +93,14 @@ class BugCreate(CreateView):
         # call the parents class method
         return super().form_valid(form)
 
-def track_ticket(request):
-    context = {}
-
-    if request.method == 'POST':
-        form = TrackTicketForm(request.POST)
-        if Bug.objects.filter(ticket_number = request.POST['ticket_number']).exists():
-            return redirect('bug-update', request.POST['ticket_number'])
-        else:
-            form = TrackTicketForm()
-            form.error = "A query with given ticket number does not exist!"
-    else:
-        form = TrackTicketForm()
-
-    context['form'] = form
-    return render(request, 'tracker/track_ticket.html', context=context)
-
-def track_ticket_project(request, project):
+def track_ticket(request, project=None):
     context = {}
 
     if request.method == 'POST':
         form = TrackTicketForm(request.POST)
         bug_found = Bug.objects.filter(ticket_number = request.POST['ticket_number'])
         if bug_found.exists():
-            if bug_found.get().project == project:
+            if project != None and bug_found.get().project == project:
                 return redirect('bug-update', request.POST['ticket_number'], project)
             else:
                 return redirect('bug-update', request.POST['ticket_number'])
@@ -127,7 +111,8 @@ def track_ticket_project(request, project):
         form = TrackTicketForm()
 
     context['form'] = form
-    context['project'] = project
+    if project != None:
+        context['project'] = project
     return render(request, 'tracker/track_ticket.html', context=context)
 
 class BugUpdate(UpdateView):
