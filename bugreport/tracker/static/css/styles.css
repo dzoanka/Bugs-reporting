@@ -53,3 +53,28 @@ table {
 .list_table tr:nth-child(even) {
   background-color: #dddddd;
 }
+
+div.lower {
+  margin-top: 20px;
+}
+
+ul.sidebar-nav a {
+  font-size: 17px;
+}
+
+
+div.menu-bug {
+  background-color: #cbcbcb;
+  min-height: calc(100vh - 2em);
+  margin-top: 20px;
+  padding: 0px;
+}
+
+.menu-bug li {
+  padding: 2px;
+  padding-left: 2pc;
+}
+
+.menu-bug a {
+  color: black;
+}

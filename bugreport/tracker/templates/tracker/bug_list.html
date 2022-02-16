@@ -1,7 +1,6 @@
 {% extends project|yesno:'base_generic_project.html,base_generic.html' %}
 
 {% block content %}
-<div class="content">
   <h2>List of problems reported {% if project_full %}in {{project_full}}{%else%}in all projects{% endif%}</h2>
   <!-- <p>Filter status: <button type="button" name="button">Fixed</button> <button type="button" name="button">Partial fixed</button> <button type="button" name="button">Not fixed</button></p> -->
   {% if bug_list %}
@@ -28,6 +27,5 @@
   {% else %}
     <p>There are no bugs.</p>
   {% endif %}
-</div>
 
 {% endblock %}

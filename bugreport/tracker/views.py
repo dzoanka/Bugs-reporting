@@ -113,6 +113,7 @@ def track_ticket(request, project=None):
     context['form'] = form
     if project != None:
         context['project'] = project
+        context["project_full"] = [v for (k,v) in PROJECT if k == project][0]
     return render(request, 'tracker/track_ticket.html', context=context)
 
 class BugUpdate(UpdateView):
