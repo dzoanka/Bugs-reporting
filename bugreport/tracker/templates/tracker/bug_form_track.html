@@ -1,7 +1,7 @@
 {% extends project|yesno:'base_generic_project.html,base_generic.html' %}
 
 {% block content %}
-<h3>The status of your ticket {{bug.ticket_number}} is {{bug.status}}</h3>
+<h3>The status of your ticket {{bug.ticket_number}} is {{bug.get_status_display}}</h3>
 <br>
 {% if bug.date_fixed %} <p>Your query is closed so it is not possible to edit it. Add new query if you need to add something. You can refer to this ticket by its ticket number.</p> {%else%}
 <p>Works on your query are still in progress. You can edit it below: </p>
